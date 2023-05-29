@@ -1,0 +1,33 @@
+.button {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+
+    transition-duration: 0.5s;
+}
+
+.button_color_red {
+    padding: 10px 20px;
+    background-color: #A8171A;
+    color: #FFFFFF;
+}
+
+.button_red-with-shadows {
+    box-shadow: 0px 10.4502px 23.2228px -6.96683px #FBE18F;
+}
+
+.button_color_white {
+    padding: 9px 19px;
+    background-color: #FFFFFF;
+    color: #A8171A;
+    box-shadow: 0 0 0 1px #A8171A;
+}
+
+.button_white-with-shadows {
+    box-shadow: 0px 10.4502px 23.2228px -6.96683px #FBE18F, 0 0 0 1px #A8171A;
+}
+
+.header__button {
+    margin-left: 40px;
+}

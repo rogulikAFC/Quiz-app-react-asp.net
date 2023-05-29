@@ -1,0 +1,27 @@
+.user-info {
+    display: flex;
+    flex-direction: row;
+    margin-left: 40px;
+    color: #A8171A;
+    align-items: center;
+}
+
+.user-info__image {
+    width: 16px;
+    height: 19px;
+}
+
+.user-info__name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.user-info__arrow {
+    height: 5px;
+    width: 7px;
+    margin-left: 5px;
+}
