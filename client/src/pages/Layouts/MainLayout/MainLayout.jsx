@@ -9,9 +9,9 @@ export function MainLayout() {
         <>
             <Header />
             
-            <main className='container' >
+            <main className='container_main' >
                 <Outlet />
-                <img src={zigzagImg} alt="" className="container__zigzag" />
+                <img src={zigzagImg} alt="" className="container_main__zigzag" />
             </main>
         </>
     )

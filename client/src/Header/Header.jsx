@@ -7,13 +7,16 @@ import HeaderUserInfo from './UserMenuElement/HeaderUserInfo'
 import './Header.css'
 import logo from '../assets/logo.png'
 import { UserContext } from '../contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
     let { getCreditials } = useContext(UserContext)
     let { userId, userName, isAuth } = getCreditials()
 
+    let navigate = useNavigate()
+
     return (
-        <header className="header header">
+        <header className="header">
             <div className="header__wrapper">
                 <img src={ logo } alt="logo" className="header__logo" />
 
@@ -25,7 +28,12 @@ function Header() {
                         isAuth ?
                         <HeaderUserInfo userId={ userId } userName={ userName } />
                         :
-                        <CustomButton color='white' blockName="header"> Login </CustomButton>
+                        <CustomButton
+                            color='white'
+                            blockName="header"
+                            onClick={ () => navigate('login') }>
+                            Login
+                        </CustomButton>
                     }
                 </div>
             </div>

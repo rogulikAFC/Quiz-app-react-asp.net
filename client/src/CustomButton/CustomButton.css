@@ -1,33 +1,35 @@
 .button {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-
-    transition-duration: 0.5s;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  transition-duration: 0.5s;
+  text-align: center;
 }
 
 .button_color_red {
-    padding: 10px 20px;
-    background-color: #A8171A;
-    color: #FFFFFF;
+  padding: 10px 20px;
+  background-color: #a8171a;
+  color: #ffffff;
 }
 
 .button_red-with-shadows {
-    box-shadow: 0px 10.4502px 23.2228px -6.96683px #FBE18F;
+  box-shadow: 0px 10.4502px 23.2228px -6.96683px #fbe18f;
 }
 
 .button_color_white {
-    padding: 9px 19px;
-    background-color: #FFFFFF;
-    color: #A8171A;
-    box-shadow: 0 0 0 1px #A8171A;
+  padding: 9px 19px;
+  background-color: #ffffff;
+  color: #a8171a;
+  box-shadow: 0 0 0 1px #a8171a;
 }
 
 .button_white-with-shadows {
-    box-shadow: 0px 10.4502px 23.2228px -6.96683px #FBE18F, 0 0 0 1px #A8171A;
+  box-shadow: 0px 10.4502px 23.2228px -6.96683px #fbe18f, 0 0 0 1px #a8171a;
 }
 
 .header__button {
-    margin-left: 40px;
+  margin-left: 40px;
 }
+
+

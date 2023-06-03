@@ -8,7 +8,7 @@ export function UserContextProvider({ children }) {
         return {
             userId: "id-888-999-000",
             userName: "Vladimir",
-            isAuth: true
+            isAuth: false
         }
     }
 

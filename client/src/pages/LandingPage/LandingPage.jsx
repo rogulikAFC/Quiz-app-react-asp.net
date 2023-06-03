@@ -1,57 +1,76 @@
-import { useContext } from "react"
-import CustomButton from "../../CustomButton/CustomButton"
+import { useContext } from "react";
+import CustomButton from "../../CustomButton/CustomButton";
 
-import arrowImg from '../../assets/arrow-downward.svg'
-import peopleImg from '../../assets/people.svg'
-import './LandingPage.css'
-import { UserContext } from "../../contexts/UserContext"
-import { useNavigate } from "react-router-dom"
+import arrowImg from "../../assets/arrow-downward.svg";
+import peopleImg from "../../assets/people.svg";
+import "./LandingPage.css";
+import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { ModalBox } from "../../ModalBox/ModalBox";
 
 export function LandingPage() {
-    let userContext = useContext(UserContext)
-    let navigate = useNavigate()
-    
-    function redirect() {
-        let user = userContext.getCreditials()
+  let userContext = useContext(UserContext);
+  let navigate = useNavigate();
 
-        console.log(user)
+  function redirect() {
+    let user = userContext.getCreditials();
 
-        if (!user.isAuth) {
-            return navigate('/login')
-        }
+    console.log(user);
 
-        return navigate('/successfull')
+    if (!user.isAuth) {
+      return navigate("/login");
     }
 
-    return (
-        <div className="wrapper main__wrapper">
-            <div className="info wrapper__info">
-                <h1 className="info__title"> 
-                    Learn new concepts for each question
-                </h1>
+    return navigate("/successfull");
+  }
 
-                <div className="info__site-description">
-                    We help you prepare for exams and quizes 
-                </div>
+  return (
+    <>
+      <div className="landing container_main__landing">
+        <div className="site-info landing__site-info">
+          <h1 className="site-info__title">
+            Learn new concepts for each question
+          </h1>
 
-                <div className="interact info__interact">
-                    <CustomButton
-                        className="interact__start"
-                        color='red'
-                        blockName='interact'
-                        onClick={redirect}
-                        shadows > 
-                        Start solving
-                    </CustomButton>
+          <div className="site-info__description">
+            We help you prepare for exams and quizes
+          </div>
 
-                    <div className="more interact__more">
-                        <img src={arrowImg} alt="" className="more__arrow" />
-                        know more
-                    </div>
-                </div>
+          <div className="landing-interact site-info__interact">
+            <CustomButton
+              className="landing-interact__start"
+              color="red"
+              blockName="landing-interact"
+              onClick={redirect}
+              shadows
+            >
+              Start solving
+            </CustomButton>
+
+            <div className="more-about-site landing-interact__more-about-site">
+              <img src={arrowImg} alt="" className="more-about-site__arrow" />
+              know more
             </div>
-
-            <img src={peopleImg} alt="" className="wrapper__image" />
+          </div>
         </div>
-    )
+
+        <img src={peopleImg} alt="" className="landing__image" />
+      </div>
+
+      <style>
+        {`
+          body, #root {
+            overflow: hidden;
+          }
+        `}
+      </style>
+
+      {/* <ModalBox
+        title="Choose your favorite topic"
+        description="Select more than 5 topics to start quiz"
+      >
+        <h2 className="modal-content__test">Hello world</h2>
+      </ModalBox> */}
+    </>
+  );
 }
