@@ -6,7 +6,6 @@ export default function Checkbox({ title, blockName, register }) {
       <input
         type="checkbox"
         className="checkbox__input"
-        name={name}
         {...register}
       />
 

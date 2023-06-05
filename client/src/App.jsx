@@ -1,5 +1,3 @@
-import './App.css'
-
 import { Routes, Route } from 'react-router-dom'
 import { MainLayout } from './pages/Layouts/MainLayout/MainLayout'
 import { LandingPage } from './pages/LandingPage/LandingPage'

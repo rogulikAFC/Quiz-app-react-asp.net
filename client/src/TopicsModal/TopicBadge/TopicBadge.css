@@ -1,0 +1,45 @@
+.topic-badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.topic-badge__input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.topic-badge__title {
+  background: #d1d1d1;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 15px;
+  padding: 6px 8px;
+  user-select: none;
+}
+
+.topic-badge__input:checked ~ .topic-badge__title {
+  background: #A8171A;
+  padding: 6px 5px;
+}
+
+.topic-badge__unselect-wrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 27px;
+  height: 27px;
+  background-color: black;
+}
+
+.topic-badge__input:checked ~ .topic-badge__unselect-wrapper {
+  display: flex;
+}
+
+.topic-badge__unselect {
+  width: 11px;
+  height: 11px;
+}

@@ -1,28 +1,16 @@
-import { useContext } from "react";
+import { useRef, useContext } from "react";
 import CustomButton from "../../CustomButton/CustomButton";
 
 import arrowImg from "../../assets/arrow-downward.svg";
 import peopleImg from "../../assets/people.svg";
 import "./LandingPage.css";
-import { UserContext } from "../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
-import { ModalBox } from "../../ModalBox/ModalBox";
+import { TopicsModal } from "../../TopicsModal/TopicsModal";
 
 export function LandingPage() {
-  let userContext = useContext(UserContext);
-  let navigate = useNavigate();
+  // let userContext = useContext(UserContext);
+  // let navigate = useNavigate();
 
-  function redirect() {
-    let user = userContext.getCreditials();
-
-    console.log(user);
-
-    if (!user.isAuth) {
-      return navigate("/login");
-    }
-
-    return navigate("/successfull");
-  }
+  const selectTopicsModalRef = useRef()
 
   return (
     <>
@@ -41,7 +29,7 @@ export function LandingPage() {
               className="landing-interact__start"
               color="red"
               blockName="landing-interact"
-              onClick={redirect}
+              onClick={() => selectTopicsModalRef.current.openModal()}
               shadows
             >
               Start solving
@@ -65,12 +53,7 @@ export function LandingPage() {
         `}
       </style>
 
-      {/* <ModalBox
-        title="Choose your favorite topic"
-        description="Select more than 5 topics to start quiz"
-      >
-        <h2 className="modal-content__test">Hello world</h2>
-      </ModalBox> */}
+      <TopicsModal modalRef={selectTopicsModalRef} />
     </>
   );
 }
