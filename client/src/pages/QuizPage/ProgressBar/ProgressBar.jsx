@@ -26,7 +26,13 @@ function ProgressBarInner({ indexCount, setQuestionIndex }, ref) {
   }
 
   function getNextNotActiveQuestionIndex(index) {
-    return items.find(item => item.index > index && !item.isActive).index
+    let question = items.find((item) => item.index > index && !item.isActive);
+
+    if (!question) {
+      return;
+    }
+
+    return question.index;
   }
 
   useImperativeHandle(
@@ -34,7 +40,7 @@ function ProgressBarInner({ indexCount, setQuestionIndex }, ref) {
     () => {
       return {
         setActive: setActive,
-        getNextNotActiveQuestionIndex: getNextNotActiveQuestionIndex
+        getNextNotActiveQuestionIndex: getNextNotActiveQuestionIndex,
       };
     },
     []

@@ -52,11 +52,20 @@ export function QuizPage() {
 
   function onAnswer() {
     // increaseQuestionIndex();
-    setCurrentQuestionIndex(
-      progressBarRef.current.getNextNotActiveQuestionIndex(currentQuestionIndex)
-    );
+    let index =
+      progressBarRef.current.getNextNotActiveQuestionIndex(
+        currentQuestionIndex
+      );
 
     progressBarRef.current.setActive(currentQuestionIndex);
+
+    if (!index) {
+      increaseQuestionIndex();
+
+      return;
+    }
+
+    setCurrentQuestionIndex(index);
   }
 
   function increaseQuestionIndex() {
@@ -116,7 +125,11 @@ export function QuizPage() {
   return (
     <>
       <div className="quiz container_main__quiz">
-        <ProgressBar indexCount={quiz.length} setQuestionIndex={setCurrentQuestionIndex} ref={progressBarRef} />
+        <ProgressBar
+          indexCount={quiz.length}
+          setQuestionIndex={setCurrentQuestionIndex}
+          ref={progressBarRef}
+        />
         <div className="quiz__question-text">
           {currentQuestionIndex}. {currentQuestion.question}
         </div>
