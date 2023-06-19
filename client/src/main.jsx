@@ -6,16 +6,16 @@ import "./main.css";
 import { BrowserRouter } from "react-router-dom";
 
 import { UserContextProvider } from "./contexts/UserContext";
-import { QuestContextProvider } from "./contexts/QuestContext.jsx";
+import { QuizContextProvider } from "./contexts/QuizContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <QuestContextProvider>
+      <QuizContextProvider>
         <UserContextProvider>
           <App />
         </UserContextProvider>
-      </QuestContextProvider>
+      </QuizContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,15 +1,16 @@
 .container_main {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    height: calc(100% - (82.8px + 15px));
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - (82.8px + 15px));
+  /* overflow-y: scroll; */
 }
 
 .container_main__zigzag {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }

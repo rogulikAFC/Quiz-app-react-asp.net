@@ -18,7 +18,6 @@ export function RegistrationPage() {
   const navigate = useNavigate();
 
   function onSubmit(data) {
-    console.log(data);
     navigate('/')
   }
 

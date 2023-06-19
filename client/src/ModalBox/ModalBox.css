@@ -22,7 +22,7 @@
   align-items: center;
   width: 716px;
   background-color: white;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .modal__close {

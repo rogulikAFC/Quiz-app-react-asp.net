@@ -6,11 +6,11 @@ import "./TopicsModal.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-import { QuestContext } from "../contexts/QuestContext";
+import { QuizContext } from "../contexts/QuizContext";
 
 export function TopicsModal({ modalRef }) {
   const { getCreditials } = useContext(UserContext);
-  const { getTopics, setQuestTopicsIds } = useContext(QuestContext);
+  const { getTopics, setQuizTopicsIds } = useContext(QuizContext);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
@@ -18,7 +18,7 @@ export function TopicsModal({ modalRef }) {
 
   let topics = [];
 
-  useEffect(() => setQuestTopicsIds([]), []);
+  useEffect(() => setQuizTopicsIds([]), []);
 
   topicsData.forEach(({ id, title }) => {
     topics.push(
@@ -40,8 +40,6 @@ export function TopicsModal({ modalRef }) {
 
   function onSubmit(data) {
     let topicsIds = getSelectedTopicsIds(data);
-    
-    console.log(topicsIds.length)
 
     if (topicsIds.length <= 5) {
       modalRef.current.setHasError()
@@ -49,7 +47,7 @@ export function TopicsModal({ modalRef }) {
       return;
     }
 
-    setQuestTopicsIds(topicsIds);
+    setQuizTopicsIds(topicsIds);
 
     let isAuth = getCreditials().isAuth;
 
@@ -59,7 +57,7 @@ export function TopicsModal({ modalRef }) {
       return;
     }
 
-    navigate("/quest");
+    navigate("/quiz");
   }
 
   return (

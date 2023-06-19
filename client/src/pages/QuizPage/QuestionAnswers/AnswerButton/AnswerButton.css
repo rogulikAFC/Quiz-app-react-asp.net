@@ -1,0 +1,41 @@
+.answer-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 150px;
+  height: 84px;
+  background: #D1D1D1;
+  font-family: Poppins;
+  text-transform: uppercase;
+  user-select: none;
+  transition: 0.3s all;
+}
+
+.answer-button:hover,
+.answer-button_active {
+  background: #A8171A;
+  color: #FFFFFF;
+}
+
+.answer-button__litera {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 2px;
+}
+
+.answer-button__litera::after {
+  content: '.';
+}
+
+.answer-button__text {
+  align-self: center;
+  font-family: Poppins;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0;
+}

@@ -17,7 +17,6 @@ export function LoginPage() {
   const navigate = useNavigate();
 
   function onSubmit(data) {
-    console.log(data)
     navigate('/')
   }
 

@@ -65,4 +65,5 @@
   position: relative;
   left: 40px;
   bottom: 20px;
+  user-select: none;
 }

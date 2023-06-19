@@ -1,24 +1,24 @@
 .header {
-    margin: 33px 31px 15px 31px;
+  margin: 33px 31px 15px 31px;
 }
 
 .header__wrapper {
-    display: flex;
-    flex-direction: row;
-    /* padding-bottom: 22px; */
-    padding: 0 44px 11px 44px;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: #ECECE8 0 1px;
+  display: flex;
+  flex-direction: row;
+  padding: 0 44px 11px 44px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: #ecece8 0 1px;
 }
 
 .header__menu {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .header__logo {
-    width: 120px;
-    height: 35px;
+  width: 120px;
+  height: 35px;
+  user-select: none;
 }
