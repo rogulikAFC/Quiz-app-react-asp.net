@@ -29,9 +29,20 @@ namespace server.Services
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public async Task<IEnumerable<Topic>> GetAllTopicsAsync()
+        public async Task<IEnumerable<Topic>> GetTopicsAsync(int pageNumber, int pageSize)
         {
-            return await _context.Topics.ToListAsync();
+            return await _context.Topics
+                .Skip(pageNumber * pageSize - 1)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<Question?> GetRandomQuestionByTopicAsync(Guid topicId)
+        {
+            return await _context.Questions
+                .OrderBy(q => EF.Functions.Random())
+                .Include(q => q.Answers)
+                .FirstAsync(); // need tests
         }
     }
 }

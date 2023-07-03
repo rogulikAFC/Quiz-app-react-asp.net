@@ -33,11 +33,6 @@ if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
-    /* using (var scope = scopedFactory.CreateScope())
-    {
-        var serv
-    } */
-
     var scope = scopedFactory.CreateScope();
     var service = scope.ServiceProvider.GetService<DataSeeder>();
 

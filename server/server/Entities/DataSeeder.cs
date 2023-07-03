@@ -87,7 +87,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD")
+                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -120,7 +121,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD")
+                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -153,7 +155,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD")
+                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -186,7 +189,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD")
+                        TopicId = new Guid("0E9BE6E2-2B14-40FC-A228-8FB28073B2CD"),
+                        TimeInSeconds = 10
                     },
 
                     new Question()
@@ -220,7 +224,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64")
+                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -253,7 +258,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64")
+                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -286,7 +292,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64")
+                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64"),
+                        TimeInSeconds = 10
                     },
                     new Question()
                     {
@@ -319,7 +326,8 @@ namespace server.Entities
                                 IsCorrect = false
                             },
                         },
-                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64")
+                        TopicId = new Guid("DE436F37-6CB6-49BA-BDCD-4938AC985E64"),
+                        TimeInSeconds = 10
                     }
                 };
 

@@ -7,6 +7,7 @@ namespace server.Services
         Task<User?> getUserByIdAsync(Guid id);
         void CreateUser(User user);
         Task<bool> SaveChangesAsync();
-        Task<IEnumerable<Topic>> GetAllTopicsAsync();
+        Task<IEnumerable<Topic>> GetTopicsAsync(int pageNumber, int pageSize);
+        Task<Question?> GetRandomQuestionByTopicAsync(Guid topicId);
     }
 }

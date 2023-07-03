@@ -10,16 +10,10 @@ namespace server.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public string Text { get; set; }
+        public string Text { get; set; } = null!;
 
-        public bool IsCorrect { get; set; }
+        public bool IsCorrect { get; set; } = false;
 
-        public ICollection<Question> Questions { get; set; }
-
-        /* public Answer(string text, bool isCorrect = false)
-        {
-            Text = text;
-            IsCorrect = isCorrect;
-        } */
+        public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
     }
 }
