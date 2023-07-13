@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
-using System.Reflection.Metadata.Ecma335;
 
 namespace server.Controllers
 {

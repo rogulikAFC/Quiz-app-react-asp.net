@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Entities
 {
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         [Key]
@@ -17,12 +19,5 @@ namespace server.Entities
 
         [Required]
         public string Password { get; set; } = null!;
-
-        /* public User(string name, string email, string password)
-        {
-            Name = name;
-            Email = email;
-            Password = password;
-        } */
     }
 }

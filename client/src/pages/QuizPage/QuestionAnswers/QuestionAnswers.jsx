@@ -39,10 +39,10 @@ export function QuestionAnswersInner(
 
   let currentQuestionAnswers = [];
 
-  for (let { id, text } of currentQuestion.answers) {
+  for (let { id, answer } of currentQuestion.answers) {
     currentQuestionAnswers = [
       ...currentQuestionAnswers,
-      { id: id, text: text },
+      { id: id, answer: answer },
     ];
   }
 
@@ -50,7 +50,7 @@ export function QuestionAnswersInner(
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-  for (let [i, { text, id }] of currentQuestionAnswers.entries()) {
+  for (let [i, { answer, id }] of currentQuestionAnswers.entries()) {
     const isActive = id === getActiveAnswerId();
 
     answerButtons = [
@@ -63,7 +63,7 @@ export function QuestionAnswersInner(
         isActive={isActive}
         answerId={id}
       >
-        {text}
+        {answer}
       </AnswerButton>,
     ];
   }

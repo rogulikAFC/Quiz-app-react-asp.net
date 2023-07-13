@@ -5,12 +5,27 @@ import arrowImg from "../../assets/arrow-downward.svg";
 import peopleImg from "../../assets/people.svg";
 import "./LandingPage.css";
 import { TopicsModal } from "../../TopicsModal/TopicsModal";
+import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export function LandingPage() {
-  // let userContext = useContext(UserContext);
-  // let navigate = useNavigate();
+  const { getCreditials } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [isUserAuth, setIsUserAuth] = useState(false);
 
-  const selectTopicsModalRef = useRef()
+  useEffect(() => {
+    async function getIsUserAuth() {
+      const user = await getCreditials();
+
+      setIsUserAuth(user.isAuth)
+    }
+
+    getIsUserAuth()
+  }, []);
+
+  const selectTopicsModalRef = useRef();
 
   return (
     <>
@@ -29,16 +44,20 @@ export function LandingPage() {
               className="landing-interact__start"
               color="red"
               blockName="landing-interact"
-              onClick={() => selectTopicsModalRef.current.openModal()}
+              onClick={() => {
+                isUserAuth
+                  ? selectTopicsModalRef.current.openModal()
+                  : navigate("/login");
+              }}
               shadows
             >
               Start solving
             </CustomButton>
 
-            <div className="more-about-site landing-interact__more-about-site">
+            <a className="more-about-site landing-interact__more-about-site" href="">
               <img src={arrowImg} alt="" className="more-about-site__arrow" />
               know more
-            </div>
+            </a>
           </div>
         </div>
 

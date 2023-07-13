@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import closeImg from "../assets/close.svg";
 import "./ModalBox.css";
 
-function ModalBoxInner({ title, description, open, children }, ref) {
+function ModalBoxInner({ title, description, open, wideContent, children }, ref) {
   let [isOpened, setIsOpened] = useState(open ? true : false);
   let [hasError, setHasErrorState] = useState(false);
 
@@ -53,7 +53,7 @@ function ModalBoxInner({ title, description, open, children }, ref) {
         ) : (
           ""
         )}
-        <div className="modal-content modal__modal-content">{children}</div>
+        <div className={`modal-content modal__modal-content${wideContent ? ' modal-content_wide' : ''}`}>{children}</div>
       </div>
     </div>
   );

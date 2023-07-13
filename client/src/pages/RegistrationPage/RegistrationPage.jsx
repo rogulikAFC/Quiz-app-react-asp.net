@@ -1,28 +1,47 @@
-import { useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import { TextField } from "../../Forms/TextField/TextField";
 import { emailPattern } from "../../Forms/utils/validation";
 import { useNavigate } from "react-router-dom";
 import { FormError } from "../../Forms/FormError/FormError";
 import CustomButton from "../../CustomButton/CustomButton";
 import "../../Forms/form.css";
-import Checkbox from "../../Forms/Checkbox/Checkbox";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export function RegistrationPage() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
+    setError,
   } = useForm();
 
   const navigate = useNavigate();
+  const { registrateUser } = useContext(UserContext);
 
-  function onSubmit(data) {
-    navigate('/')
-  }
+  async function onSubmit({ email, password1, password2, name }) {
+    if (password1 !== password2) {
+      let error = {
+        type: "passwordsDoNotMatch",
+        message: "Passwords don't match",
+      };
 
-  function doThePasswordsMatch() {
-    return watch("password1") === watch("password2");
+      setError("password1", error);
+      setError("password2", error);
+
+      return;
+    }
+
+    if (!(await registrateUser(email, password1, name))) {
+      setError("email", {
+        type: "userWithThisEmailIsAlreadyExist",
+        message: "User with this email is already exist",
+      });
+
+      return;
+    }
+
+    navigate("/");
   }
 
   return (
@@ -47,6 +66,11 @@ export function RegistrationPage() {
         <FormError>Email is not valid</FormError>
       )}
 
+      {errors.email &&
+        errors.email.type === "userWithThisEmailIsAlreadyExist" && (
+          <FormError>User with this email is already exist</FormError>
+        )}
+
       <TextField
         title="Name"
         register={register("name", {
@@ -65,7 +89,6 @@ export function RegistrationPage() {
         register={register("password1", {
           required: true,
           minLength: 5,
-          validate: doThePasswordsMatch,
         })}
         hasError={errors.password1 ? true : false}
       />
@@ -78,22 +101,23 @@ export function RegistrationPage() {
         <FormError>Password can't be less than 5 symbols</FormError>
       )}
 
+      {errors.password1 && errors.password1.type === "passwordsDoNotMatch" && (
+        <FormError>Passwords don't match</FormError>
+      )}
+
       <TextField
         title="Repeat Password"
         password
         register={register("password2", {
           required: true,
           minLength: 5,
-          validate: doThePasswordsMatch,
         })}
         hasError={errors.password2 ? true : false}
       />
 
-      {errors.password2 && errors.password2.type === "validate" && (
+      {errors.password2 && errors.password2.type === "passwordsDoNotMatch" && (
         <FormError>Passwords don't match</FormError>
       )}
-
-      <Checkbox title="Remember Me" register={register("rememberUser")} />
 
       <div className="form__buttons">
         <CustomButton color="red" shadows blockName="form" submit>

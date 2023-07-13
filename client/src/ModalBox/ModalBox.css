@@ -58,6 +58,10 @@
   color: #a8171a;
 }
 
+.modal-content_wide {
+  width: 100%;
+}
+
 .modal-content {
   margin-top: 27px;
 }

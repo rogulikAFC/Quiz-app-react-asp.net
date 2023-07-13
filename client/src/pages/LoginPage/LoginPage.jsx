@@ -1,4 +1,3 @@
-import Checkbox from "../../Forms/Checkbox/Checkbox";
 import { TextField } from "../../Forms/TextField/TextField";
 import CustomButton from "../../CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
@@ -6,24 +5,42 @@ import { FormError } from "../../Forms/FormError/FormError";
 import { useForm } from "react-hook-form";
 import "../../Forms/form.css";
 import { emailPattern } from "../../Forms/utils/validation";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
+
+  const { loginUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
-  function onSubmit(data) {
-    navigate('/')
+  async function onSubmit({ email, password }) {
+    if (!(await loginUser(email, password))) {
+      setError("email", {
+        type: "invalidCreditials",
+        message: "Email or password is invalid",
+      });
+
+      return;
+    }
+
+    navigate("/");
+  }
+
+  function onErrors(errors) {
+    console.log({ errors });
   }
 
   return (
     <form
       className="form form_login authorization-interact__form_login"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, onErrors)}
     >
       <TextField
         title="Email Address"
@@ -36,6 +53,10 @@ export function LoginPage() {
 
       {errors.email && errors.email.type === "required" && (
         <FormError>Email is required</FormError>
+      )}
+
+      {errors.email && errors.email.type === "invalidCreditials" && (
+        <FormError>Email or password is invalid</FormError>
       )}
 
       {errors.email && errors.email.type === "pattern" && (
@@ -60,7 +81,7 @@ export function LoginPage() {
         <FormError>Password can't be less than 5 symbols</FormError>
       )}
 
-      <Checkbox title="Remember Me" register={register("rememberUser")} />
+      {/* <Checkbox title="Remember Me" register={register("rememberUser")} /> */}
 
       <div className="form__buttons">
         <CustomButton color="red" shadows blockName="form" submit>

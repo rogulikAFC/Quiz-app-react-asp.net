@@ -8,50 +8,69 @@ import { ResultModal } from "./ResultModal/ResultModal";
 import blackArrow from "../../assets/arrow-black.svg";
 import whiteArrow from "../../assets/arrow-white.svg";
 import clockImg from "../../assets/clock.svg";
+import { useNavigate } from "react-router-dom";
 
 export function QuizPage() {
   const { getQuiz } = useContext(QuizContext);
 
-  let [hasQuiz, setHasQuiz] = useState(false);
+  const [hasQuiz, setHasQuiz] = useState(false);
+  const [quiz, setQuiz] = useState([]);
+  const [maxQuestionIndex, setMaxQuestionIndex] = useState();
 
-  let [quiz, setQuiz] = useState(() => {
-    if (!hasQuiz) {
-      return getQuiz();
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState({});
+
+  const [quizTimeInSeconds, setQuizTimeInSeconds] = useState(1000);
+  const [isCounting, setIsCounting] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getQuizData() {
+      if (hasQuiz) {
+        return;
+      }
+
+      const quizData = await getQuiz();
+
+      console.log({ quizData });
+
+      setQuiz(quizData);
+      setHasQuiz(true);
     }
 
-    return quiz;
-  });
+    getQuizData();
+  }, []);
 
-  let maxQuestionIndex = quiz.length;
+  useEffect(() => setMaxQuestionIndex(quiz.length), [quiz]);
+
+  useEffect(() => {
+    if (!hasQuiz) {
+      return;
+    }
+
+    setQuizTimeInSeconds(
+      quiz
+        .map((question) => question.timeInSeconds)
+        .reduce((accumulator, time) => accumulator + time, 0)
+    );
+
+    setIsLoading(false);
+  }, [quiz]);
+
+  useEffect(() => {
+    setCurrentQuestion(quiz[currentQuestionIndex - 1]);
+  }, [currentQuestionIndex, quiz]);
 
   const [resultModal, setResultModal] = useState("");
   const modalRef = useRef();
 
-  let [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
-
-  let [currentQuestion, setCurrentQuestion] = useState(
-    quiz[currentQuestionIndex - 1]
-  );
-
   const secondsToMinutesAndSeconds = (s) =>
     (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
-
-  const [quizTimeInSeconds, setQuizTimeInSeconds] = useState(() => {
-    return quiz
-      .map((question) => question.timeInSeconds)
-      .reduce((accumulator, time) => accumulator + time, 0);
-  });
-
-  const [isCounting, setIsCounting] = useState(true);
-
-  useEffect(() => {
-    setCurrentQuestion(quiz[currentQuestionIndex - 1]);
-  }, [currentQuestionIndex]);
 
   const progressBarRef = useRef();
 
   function onAnswer() {
-    // increaseQuestionIndex();
     let index =
       progressBarRef.current.getNextNotActiveQuestionIndex(
         currentQuestionIndex
@@ -89,8 +108,6 @@ export function QuizPage() {
   function openResultModal() {
     let validatedAnswers = answersRef.current.validateAnswers();
 
-    console.log(validatedAnswers);
-
     const score = validatedAnswers.reduce((accumulator, answer) => {
       if (answer.isValid) {
         accumulator++;
@@ -114,7 +131,9 @@ export function QuizPage() {
     } else {
       clearInterval(interval);
 
-      openResultModal();
+      if (quiz.length !== 0) {
+        openResultModal();
+      }
     }
 
     return () => clearInterval(interval);
@@ -124,69 +143,91 @@ export function QuizPage() {
 
   return (
     <>
-      <div className="quiz container_main__quiz">
-        <ProgressBar
-          indexCount={quiz.length}
-          setQuestionIndex={setCurrentQuestionIndex}
-          ref={progressBarRef}
-        />
-        <div className="quiz__question-text">
-          {currentQuestionIndex}. {currentQuestion.question}
-        </div>
-        <QuestionAnswers
-          quizObj={quiz}
-          currentQuestion={currentQuestion}
-          onAnswer={onAnswer}
-          currentQuestionId={currentQuestion.id}
-          ref={answersRef}
-        />
-        <div className="quiz-interact quiz__quiz-interact">
-          <CustomButton
-            blockName="quiz-interact"
-            color="gray"
-            shadows
-            onClick={decreaseQuestionIndex}
+      {isLoading ? (
+        "Loading"
+      ) : quiz.length === 0 ? (
+        <>
+          <p
+            style={{
+              fontFamily: "Roboto",
+              marginBottom: "40px",
+              fontSize: "30px",
+              fontWeight: "500",
+            }}
           >
-            <img
-              src={blackArrow}
-              alt=""
-              className="button__arrow button__arrow_black"
-            />
-            Previous
+            Ooops... Something went wrong.
+          </p>
+          <CustomButton color="gray" shadows onClick={() => navigate("/")}>
+            Back
           </CustomButton>
-
-          <figure className="timer quiz-interact__timer">
-            <img src={clockImg} alt="" className="timer__image" />
-            <figcaption className="timer__time">
-              {secondsToMinutesAndSeconds(quizTimeInSeconds)}
-            </figcaption>
-          </figure>
-
-          <CustomButton
-            blockName="quiz-interact"
-            color="red"
-            shadows
-            onClick={increaseQuestionIndex}
-          >
-            Next
-            <img
-              src={whiteArrow}
-              alt=""
-              className="button__arrow button__arrow_white"
+        </>
+      ) : (
+        <>
+          <div className="quiz container_main__quiz">
+            <ProgressBar
+              indexCount={quiz.length}
+              setQuestionIndex={setCurrentQuestionIndex}
+              ref={progressBarRef}
             />
-          </CustomButton>
-        </div>
-      </div>
+            <div className="quiz__question-text">
+              {currentQuestionIndex}. {currentQuestion.questionText}
+            </div>
+            <QuestionAnswers
+              quizObj={quiz}
+              currentQuestion={currentQuestion}
+              onAnswer={onAnswer}
+              currentQuestionId={currentQuestion.id}
+              ref={answersRef}
+            />
+            <div className="quiz-interact quiz__quiz-interact">
+              <CustomButton
+                blockName="quiz-interact"
+                color="gray"
+                shadows
+                onClick={decreaseQuestionIndex}
+              >
+                <img
+                  src={blackArrow}
+                  alt=""
+                  className="button__arrow button__arrow_black"
+                />
+                Previous
+              </CustomButton>
 
-      {resultModal}
+              <figure className="timer quiz-interact__timer">
+                <img src={clockImg} alt="" className="timer__image" />
+                <figcaption className="timer__time">
+                  {secondsToMinutesAndSeconds(quizTimeInSeconds)}
+                </figcaption>
+              </figure>
 
-      <style>
-        {`
+              <CustomButton
+                blockName="quiz-interact"
+                color="red"
+                shadows
+                onClick={increaseQuestionIndex}
+              >
+                Next
+                <img
+                  src={whiteArrow}
+                  alt=""
+                  className="button__arrow button__arrow_white"
+                />
+              </CustomButton>
+            </div>
+          </div>
+
+          {resultModal}
+
+          <style>
+            {`
           .container_main {
             justify-content: start;
           }
         `}
-      </style>
+          </style>
+        </>
+      )}
     </>
   );
 }

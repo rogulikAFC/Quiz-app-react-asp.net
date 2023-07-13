@@ -9,6 +9,7 @@
 .user-info__image {
     width: 16px;
     height: 19px;
+    user-select: none;
 }
 
 .user-info__name {

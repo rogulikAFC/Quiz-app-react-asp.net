@@ -13,25 +13,61 @@ export function TopicsModal({ modalRef }) {
   const { getTopics, setQuizTopicsIds } = useContext(QuizContext);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+  const [isLoading, setIsLoading] = useState(true);
+  const [topicsData, setTopicsData] = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [isUserAuth, setIsUserAuth] = useState(false);
+  const [pageNum, setPageNum] = useState(0);
 
-  const topicsData = getTopics();
+  const minTopicsSelectedCount = 2;
 
-  let topics = [];
+  useEffect(() => {
+    async function getTopicsData() {
+      const loadedTopics = await getTopics(pageNum);
 
-  useEffect(() => setQuizTopicsIds([]), []);
+      setTopicsData((oldTopics) => [...oldTopics, ...loadedTopics]);
+    }
 
-  topicsData.forEach(({ id, title }) => {
-    topics.push(
-      <TopicBadge key={id} title={title} register={register(id.toString())} />
-    );
-  });
+    getTopicsData();
+  }, [pageNum]);
+
+  useEffect(() => {
+    async function getIsUserAuth() {
+      const { isAuth } = await getCreditials();
+
+      setIsUserAuth(isAuth);
+    }
+
+    getIsUserAuth();
+  }, []);
+
+  useEffect(() => {
+    setTopics(() => {
+      let newTopics = [];
+
+      for (let { id, name } of topicsData) {
+        newTopics = [
+          ...newTopics,
+          <TopicBadge
+            key={id}
+            title={name}
+            register={register(id.toString())}
+          />,
+        ];
+      }
+
+      return newTopics;
+    });
+
+    setIsLoading(false);
+  }, [topicsData]);
 
   function getSelectedTopicsIds(data) {
     let selectedTopicsIds = [];
 
     for (let [key, value] of Object.entries(data)) {
       if (value === true) {
-        selectedTopicsIds.push(key);
+        selectedTopicsIds = [...selectedTopicsIds, key];
       }
     }
 
@@ -41,17 +77,15 @@ export function TopicsModal({ modalRef }) {
   function onSubmit(data) {
     let topicsIds = getSelectedTopicsIds(data);
 
-    if (topicsIds.length <= 5) {
-      modalRef.current.setHasError()
+    if (topicsIds.length < minTopicsSelectedCount) {
+      modalRef.current.setHasError();
 
       return;
     }
 
     setQuizTopicsIds(topicsIds);
 
-    let isAuth = getCreditials().isAuth;
-
-    if (!isAuth) {
+    if (!isUserAuth) {
       navigate("/login");
 
       return;
@@ -63,19 +97,33 @@ export function TopicsModal({ modalRef }) {
   return (
     <ModalBox
       title="Choose your favorite topics"
-      description="Select more than 5 topics to start quiz"
+      description={`Select at least ${minTopicsSelectedCount} topics to start quiz`}
+      wideContent
       ref={modalRef}
     >
-      <form
-        className="select-topics modal-content__select-topics"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="select-topics__topics">{topics}</div>
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <form
+          className="select-topics modal-content__select-topics"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="select-topics__topics">{topics}</div>
 
-        <CustomButton blockName="select-topics" color="red" shadows submit>
-          Start quiz
-        </CustomButton>
-      </form>
+          <div className="select-topics__buttons">
+            <CustomButton
+              blockName="select-topics"
+              color="gray"
+              onClick={() => setPageNum((n) => ++n)}
+            >
+              Load more topics
+            </CustomButton>
+            <CustomButton blockName="select-topics" color="red" shadows submit>
+              Start quiz
+            </CustomButton>
+          </div>
+        </form>
+      )}
     </ModalBox>
   );
 }

@@ -1,26 +1,29 @@
 .select-topics {
-  /* position: relative; */
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
-  /* left: 29px; */
+}
+
+.select-topics__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .select-topics__topics {
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
+  align-items: flex-start;
   gap: 30px;
   flex-wrap: wrap;
   margin: 0 74px 38px 74px;
+  height: 100px;
+  overflow-y: scroll;
 }
 
 .modal-content__select-topics {
-  
-}
-
-.select-topics__topic-badge {
-  /* margin: 0 15px 30px 15px; */
+  width: 100%;
 }
 
 .select-topics__button {

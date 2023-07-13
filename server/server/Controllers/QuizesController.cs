@@ -25,30 +25,25 @@ namespace server.Controllers
                 ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpGet("get_quiz")]
+        [HttpPost("get_quiz")]
         public async Task<ActionResult<List<QuestionDto>>> GetQuiz(GetQuizDto getQuizDto)
         {
             var topicsIds = getQuizDto.TopicsIds;
 
             var quiz = new List<QuestionDto>();
 
-            if (topicsIds.Count < 5)
-            {
-                if (topicsIds.Count == 0)
-                {
-                    _logger.LogWarning("Topics are null");
-                }
-
-                return BadRequest();
-            }
-
             foreach (var topicId in topicsIds)
             {
+                if (!await _serverRepository.IsTopicValid(topicId))
+                {
+                    return NotFound(nameof(topicId));
+                }
+
                 var question = await _serverRepository.GetRandomQuestionByTopicAsync(topicId);
 
                 if (question == null)
                 {
-                    return NotFound();
+                    continue;
                 }
 
                 var answersDtosList = new List<AnswerDto>();

@@ -4,18 +4,20 @@ import App from "./App.jsx";
 import "./reset.css";
 import "./main.css";
 import { BrowserRouter } from "react-router-dom";
-
 import { UserContextProvider } from "./contexts/UserContext";
 import { QuizContextProvider } from "./contexts/QuizContext.jsx";
+import { CookiesProvider } from "react-cookie";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
-      <QuizContextProvider>
-        <UserContextProvider>
-          <App />
-        </UserContextProvider>
-      </QuizContextProvider>
+      <CookiesProvider>
+        <QuizContextProvider>
+          <UserContextProvider>
+            <App />
+          </UserContextProvider>
+        </QuizContextProvider>
+      </CookiesProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

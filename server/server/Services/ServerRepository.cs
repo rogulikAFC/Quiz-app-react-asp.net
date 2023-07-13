@@ -14,14 +14,16 @@ namespace server.Services
                 ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<User?> getUserByIdAsync(Guid id)
+        public async Task<User?> GetUserByIdAsync(Guid id)
         {
             return await _context.Users.FindAsync(id);
         }
 
-        public void CreateUser(User user)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
-            _context.Add(user);
+            return await _context.Users
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -32,17 +34,28 @@ namespace server.Services
         public async Task<IEnumerable<Topic>> GetTopicsAsync(int pageNumber, int pageSize)
         {
             return await _context.Topics
-                .Skip(pageNumber * pageSize - 1)
+                .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<bool> IsTopicValid(Guid topicId)
+        {
+            return await _context.Topics.FindAsync(topicId) != null;
         }
 
         public async Task<Question?> GetRandomQuestionByTopicAsync(Guid topicId)
         {
             return await _context.Questions
+                .Where(q => q.TopicId == topicId)
                 .OrderBy(q => EF.Functions.Random())
                 .Include(q => q.Answers)
-                .FirstAsync(); // need tests
+                .FirstOrDefaultAsync();
+        }
+
+        public void AddUser(User user)
+        {
+            _context.Add(user);
         }
     }
 }

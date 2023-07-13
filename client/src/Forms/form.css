@@ -10,13 +10,11 @@
     margin: 20px 0;
 }
 
-.form__button {
-    /* width: 72px; */
-    margin-right: 29px;
-}
-
 .form__buttons {
+    display: flex;
+    flex-direction: row;
     margin-top: 26px;
+    column-gap: 29px;
 }
 
 .form__text-field {

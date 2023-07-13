@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using server.Entities;
 using server.Models;
 using server.Services;
+using System.Net;
 
 namespace server.Controllers
 {
@@ -32,10 +33,7 @@ namespace server.Controllers
         [HttpGet("get_user/{id}", Name = "GetUser")]
         public async Task<ActionResult<UserDto>> GetUser(Guid id)
         {
-            _logger.LogInformation("called");
-            _logger.LogInformation(id.ToString());
-
-            var user = await _serverRepository.getUserByIdAsync(id);
+            var user = await _serverRepository.GetUserByIdAsync(id);
 
             if (user == null)
             {
@@ -54,6 +52,8 @@ namespace server.Controllers
             var finalUser = _mapper.Map<User>(user);
             finalUser.Id = Guid.NewGuid();
 
+            _serverRepository.AddUser(finalUser);
+
             await _serverRepository.SaveChangesAsync();
 
             var userDto = _mapper.Map<UserDto>(finalUser);
@@ -64,6 +64,25 @@ namespace server.Controllers
                     id = userDto.Id,
                 },
                 userDto);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> LoginUser(LoginUserDto loginUser)
+        {
+            var user = await _serverRepository
+                .GetUserByEmailAsync(loginUser.Email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Password == loginUser.Password)
+            {
+                return Ok(user.Id);
+            }
+
+            return BadRequest();
         }
     }
 }

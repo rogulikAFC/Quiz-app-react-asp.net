@@ -12,11 +12,12 @@ html, body {
   height: 100%;
 }
 
-body {
+/* body {
   display: table;
-}
+} */
 
 #root {
-  width: 100%;
-  display: table-cell;
+  position: relative;
+  height: auto;
+  min-height: 100%;
 }
